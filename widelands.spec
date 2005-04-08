@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{_desktopdir}}
 
 install widelands $RPM_BUILD_ROOT%{_bindir}
-cp -r fonts maps pics tribes worlds $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -r campaigns fonts maps pics tribes worlds $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
