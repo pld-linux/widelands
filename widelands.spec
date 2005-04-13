@@ -61,7 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README COPYING AUTHORS
+%doc AUTHORS ChangeLog README
 %attr(755,root,root) %{_bindir}/widelands
 %{_datadir}/widelands
 %{_desktopdir}/widelands.desktop
