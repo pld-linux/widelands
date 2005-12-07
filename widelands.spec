@@ -1,4 +1,4 @@
-%define		_version	b9
+%define		_version	b9half
 Summary:	Game like Settlers II
 Summary(pl):	Remake gry Settlers II
 Name:		widelands
@@ -7,7 +7,7 @@ Release:	0.1
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/%{name}-%{_version}-source.tar.bz2
-# Source0-md5:	0efaa379795496c05feee47de27b5dae
+# Source0-md5:	7bced82bda4b83d884da3e5b0143b2b4
 Source1:	%{name}.desktop
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel
@@ -39,13 +39,14 @@ nastawione i rozpocz±æ z Tob± handel. Jednak, je¶li chcesz rz±dziæ
 ¶wiatem, bêdziesz musia³ wyszkoliæ ¿o³nierzy i walczyæ.
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-%{_version}
 
 %build
 rm -f widelands
 %{__make} \
 	CXX="%{__cxx}" \
-	CXXFLAGS="%{rpmcflags} -Isrc/ui/ui_basic -Isrc -Isrc/editor -Isrc/editor/ui_menus -Isrc/ui/ui_fs_menus -Isrc/editor/tools `sdl-config --cflags`"
+	CXXFLAGS="%{rpmcflags} -Isrc/ui/ui_basic -Isrc -Isrc/editor -Isrc/editor/ui_menus -Isrc/ui/ui_fs_menus -Isrc/editor/tools `sdl-config --cflags`" \
+	IMPLICIT_LIBINTL="YES"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -61,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README
+%doc ChangeLog
 %attr(755,root,root) %{_bindir}/widelands
 %{_datadir}/widelands
 %{_desktopdir}/widelands.desktop
