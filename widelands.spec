@@ -3,7 +3,7 @@ Summary:	Game like Settlers II
 Summary(pl):	Remake gry Settlers II
 Name:		widelands
 Version:	0.%{_version}
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/%{name}-%{_version}-source.tar.bz2
@@ -53,7 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{_desktopdir}}
 
 install widelands $RPM_BUILD_ROOT%{_bindir}
-cp -r campaigns fonts maps pics tribes worlds $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
