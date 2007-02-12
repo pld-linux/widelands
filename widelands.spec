@@ -1,6 +1,6 @@
 %define		_version	b9half
 Summary:	Game like Settlers II
-Summary(pl.UTF-8):   Remake gry Settlers II
+Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.%{_version}
 Release:	0.2
