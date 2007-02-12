@@ -1,6 +1,6 @@
 %define		_version	b9half
 Summary:	Game like Settlers II
-Summary(pl):	Remake gry Settlers II
+Summary(pl.UTF-8):   Remake gry Settlers II
 Name:		widelands
 Version:	0.%{_version}
 Release:	0.2
@@ -27,16 +27,16 @@ meet other tribes sooner or later. Some of them may be friendly and
 trade with you. However, if you want to rule the world, you will have
 to train soldiers and fight.
 
-%description -l pl
-W grze Widelands jeste¶ regentem niewielkiego plemienia. Rozpoczynasz
-grê tylko z kwater± g³ówn±, czym¶ w rodzaju zamku, w której
-przechowywane s± wszystkie Twoje zasoby. Ka¿dy cz³onek plemienia
-wykona swoje zadanie w procesie produkcji tych¿e zasobów - drewna,
-¿ywno¶ci, ¿elaza, z³ota i wielu innych - aby zapewniæ rozwój. Jednak
-nie jeste¶ sam na tym ¶wiecie i wcze¶niej lub pó¼niej bêdziesz musia³
-spotkaæ siê z innymi plemionami. Niektóre z nich mog± byæ przyja¼nie
-nastawione i rozpocz±æ z Tob± handel. Jednak, je¶li chcesz rz±dziæ
-¶wiatem, bêdziesz musia³ wyszkoliæ ¿o³nierzy i walczyæ.
+%description -l pl.UTF-8
+W grze Widelands jesteÅ› regentem niewielkiego plemienia. Rozpoczynasz
+grÄ™ tylko z kwaterÄ… gÅ‚Ã³wnÄ…, czymÅ› w rodzaju zamku, w ktÃ³rej
+przechowywane sÄ… wszystkie Twoje zasoby. KaÅ¼dy czÅ‚onek plemienia
+wykona swoje zadanie w procesie produkcji tychÅ¼e zasobÃ³w - drewna,
+Å¼ywnoÅ›ci, Å¼elaza, zÅ‚ota i wielu innych - aby zapewniÄ‡ rozwÃ³j. Jednak
+nie jesteÅ› sam na tym Å›wiecie i wczeÅ›niej lub pÃ³Åºniej bÄ™dziesz musiaÅ‚
+spotkaÄ‡ siÄ™ z innymi plemionami. NiektÃ³re z nich mogÄ… byÄ‡ przyjaÅºnie
+nastawione i rozpoczÄ…Ä‡ z TobÄ… handel. Jednak, jeÅ›li chcesz rzÄ…dziÄ‡
+Å›wiatem, bÄ™dziesz musiaÅ‚ wyszkoliÄ‡ Å¼oÅ‚nierzy i walczyÄ‡.
 
 %prep
 %setup -q -n %{name}-%{_version}
