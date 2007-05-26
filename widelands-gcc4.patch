@@ -1,0 +1,11 @@
+--- widelands-b9half/src/ui/ui_fs_menus/fullscreen_menu_options.h~	2005-11-08 13:29:25.000000000 +0100
++++ widelands-b9half/src/ui/ui_fs_menus/fullscreen_menu_options.h	2007-05-26 20:36:50.030972199 +0200
+@@ -63,7 +63,7 @@
+ class Fullscreen_Menu_Options : public Fullscreen_Menu_Base {
+ public:
+ 	Fullscreen_Menu_Options(Options_Ctrl::Options_Struct opt);
+-	Options_Ctrl::Options_Struct Fullscreen_Menu_Options::get_values();
++	Options_Ctrl::Options_Struct get_values();
+    enum {
+       om_cancel = 0,
+       om_ok = 1
