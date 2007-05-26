@@ -3,12 +3,13 @@ Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.%{_version}
-Release:	0.2
+Release:	0.5
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/%{name}-%{_version}-source.tar.bz2
 # Source0-md5:	7bced82bda4b83d884da3e5b0143b2b4
 Source1:	%{name}.desktop
+Patch0:		%{name}-gcc4.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel
 BuildRequires:	SDL_image-devel
@@ -41,6 +42,7 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 
 %prep
 %setup -q -n %{name}-%{_version}
+%patch0 -p1
 
 %build
 rm -f widelands
