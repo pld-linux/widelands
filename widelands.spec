@@ -1,4 +1,4 @@
-%define		_version	b9half
+%define		_version	build10
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
@@ -7,9 +7,8 @@ Release:	0.5
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/%{name}-%{_version}-source.tar.bz2
-# Source0-md5:	7bced82bda4b83d884da3e5b0143b2b4
+# Source0-md5:	9e452baf7b8f22a27b4e371e2150e017
 Source1:	%{name}.desktop
-Patch0:		%{name}-gcc4.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel
 BuildRequires:	SDL_image-devel
@@ -41,8 +40,7 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 światem, będziesz musiał wyszkolić żołnierzy i walczyć.
 
 %prep
-%setup -q -n %{name}-%{_version}
-%patch0 -p1
+%setup -q -n %{name}
 
 %build
 rm -f widelands
@@ -53,10 +51,10 @@ rm -f widelands
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/%{name},%{_desktopdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir}}
 
 install widelands $RPM_BUILD_ROOT%{_bindir}
-cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
 
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
@@ -67,5 +65,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog
 %attr(755,root,root) %{_bindir}/widelands
-%{_datadir}/widelands
+%{_datadir}/games/widelands
 %{_desktopdir}/widelands.desktop
