@@ -12,7 +12,7 @@ Source1:	%{name}.desktop
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel
 BuildRequires:	SDL_image-devel
-BuildRequires:	SDL_mixer-devel
+BuildRequires:	SDL_mixer-devel >= 1.2.7
 BuildRequires:	SDL_net-devel
 BuildRequires:	SDL_ttf-devel
 BuildRequires:	libstdc++-devel
