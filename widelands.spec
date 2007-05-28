@@ -1,20 +1,24 @@
+#
+# TODO:
+# - translations
+#
 %define		_version	build10
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.%{_version}
-Release:	0.5
+Release:	0.6
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/%{name}-%{_version}-source.tar.bz2
 # Source0-md5:	9e452baf7b8f22a27b4e371e2150e017
 Source1:	%{name}.desktop
 URL:		http://widelands.sourceforge.net/
-BuildRequires:	SDL-devel
+BuildRequires:	SDL-devel >= 1.2.11
 BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel >= 1.2.7
 BuildRequires:	SDL_net-devel
-BuildRequires:	SDL_ttf-devel
+BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -52,9 +56,11 @@ rm -f widelands
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir},%{_pixmapsdir}}
 
 install widelands $RPM_BUILD_ROOT%{_bindir}
+install pics/wl-logo-64.png $RPM_BUILD_ROOT%{_pixmapsdir}/widelands.png
+rm -f {campaigns,fonts,maps,music,pics,sound,tribes,txts,worlds}/SConscript
 cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
 
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
@@ -68,3 +74,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/widelands
 %{_datadir}/games/widelands
 %{_desktopdir}/widelands.desktop
+%{_pixmapsdir}/widelands.png
