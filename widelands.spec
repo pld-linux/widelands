@@ -46,6 +46,7 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 
 %prep
 %setup -q -n %{name}
+rm -f {campaigns,fonts,maps,music,pics,sound,tribes,txts,worlds}/SConscript
 
 %build
 rm -f widelands
@@ -60,7 +61,6 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir},%
 
 install widelands $RPM_BUILD_ROOT%{_bindir}
 install pics/wl-logo-64.png $RPM_BUILD_ROOT%{_pixmapsdir}/widelands.png
-rm -f {campaigns,fonts,maps,music,pics,sound,tribes,txts,worlds}/SConscript
 cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
 
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
