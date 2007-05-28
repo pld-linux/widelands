@@ -3,6 +3,7 @@ Name=Widelands
 Comment=Clone of the game Settlers II
 Comment[pl]=Klon gry Settlers II
 Exec=widelands
+Icon=widelands
 Type=Application
 Categories=Game;StrategyGame;
 Encoding=UTF-8
