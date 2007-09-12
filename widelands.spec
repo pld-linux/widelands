@@ -2,25 +2,27 @@
 # TODO:
 # - translations
 #
-%define		_version	build10
+%define		_build	11
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
-Version:	0.%{_version}
-Release:	0.6
+Version:	0.build%{_build}
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Games
-Source0:	http://dl.sourceforge.net/widelands/%{name}-%{_version}-source.tar.bz2
-# Source0-md5:	9e452baf7b8f22a27b4e371e2150e017
+Source0:	http://dl.sourceforge.net/widelands/%{name}-build-%{_build}-source.tar.bz2
+# Source0-md5:	ad41d917f7895b6212009ac584178b55
 Source1:	%{name}.desktop
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.11
+BuildRequires:	SDL_gfx-devel
 BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel >= 1.2.7
 BuildRequires:	SDL_net-devel
 BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:  sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -47,6 +49,14 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 %prep
 %setup -q -n %{name}
 rm -f {campaigns,fonts,maps,music,pics,sound,tribes,txts,worlds}/SConscript
+# Fixing path
+find -type f "(" -name *.cc -or -name *.h ")" -exec sed -i \
+    -e 's|#include "filesystem.h"|#include "filesystem/filesystem.h"|g' \
+    -e 's|#include "layered_filesystem.h"|#include "filesystem/layered_filesystem.h"|g' \
+    -e 's|#include "zip_exceptions.h"|#include "filesystem/zip_exceptions.h"|g' \
+    -e 's|#include "zip_filesystem.h"|#include "filesystem/zip_filesystem.h"|g' \
+    "{}" ";"
+
 
 %build
 rm -f widelands
