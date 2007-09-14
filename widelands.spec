@@ -57,8 +57,6 @@ find -type f "(" -name *.cc -or -name *.h ")" -exec sed -i \
     -e 's|#include "zip_filesystem.h"|#include "filesystem/zip_filesystem.h"|g' \
     "{}" ";"
 
-# Remove data from this package - its excluded to -data package
-rm -rf campaigns fonts maps music pics sound tribes txts worlds
 
 %build
 rm -f widelands
@@ -69,12 +67,11 @@ rm -f widelands
 
 %install
 rm -rf $RPM_BUILD_ROOT
-#install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir},%{_pixmapsdir}}
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir},%{_pixmapsdir}}
 
 install widelands $RPM_BUILD_ROOT%{_bindir}
 install pics/wl-logo-64.png $RPM_BUILD_ROOT%{_pixmapsdir}/widelands.png
-#cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
+cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
 
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
@@ -85,6 +82,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog
 %attr(755,root,root) %{_bindir}/widelands
-#%{_datadir}/games/widelands
+%{_datadir}/games/widelands
 %{_desktopdir}/widelands.desktop
 %{_pixmapsdir}/widelands.png
