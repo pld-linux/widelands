@@ -2,7 +2,7 @@
 # TODO:
 # - translations
 #
-%define		_build	11
+%define		_build	12
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
@@ -11,7 +11,7 @@ Release:	0.1
 License:	GPL
 Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/%{name}-build-%{_build}-source.tar.bz2
-# Source0-md5:	ad41d917f7895b6212009ac584178b55
+# Source0-md5:	1b551106e0f613f63abd7e6bdc9cebf6
 Source1:	%{name}.desktop
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.11
@@ -20,9 +20,10 @@ BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel >= 1.2.7
 BuildRequires:	SDL_net-devel
 BuildRequires:	SDL_ttf-devel >= 2.0.0
+BuildRequires:	boost-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:  sed >= 4.0
+BuildRequires:	scons
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,32 +49,25 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 
 %prep
 %setup -q -n %{name}
-rm -f {campaigns,fonts,maps,music,pics,sound,tribes,txts,worlds}/SConscript
-# Fixing path
-find -type f "(" -name *.cc -or -name *.h ")" -exec sed -i \
-    -e 's|#include "filesystem.h"|#include "filesystem/filesystem.h"|g' \
-    -e 's|#include "layered_filesystem.h"|#include "filesystem/layered_filesystem.h"|g' \
-    -e 's|#include "zip_exceptions.h"|#include "filesystem/zip_exceptions.h"|g' \
-    -e 's|#include "zip_filesystem.h"|#include "filesystem/zip_filesystem.h"|g' \
-    "{}" ";"
-
 
 %build
-rm -f widelands
-%{__make} \
-	CXX="%{__cxx}" \
-	CXXFLAGS="%{rpmcflags} -Isrc/ui/ui_basic -Isrc -Isrc/editor -Isrc/editor/ui_menus -Isrc/ui/ui_fs_menus -Isrc/editor/tools `sdl-config --cflags`" \
-	IMPLICIT_LIBINTL="YES"
+%scons \
+	install_prefix=%{_prefix} \
+	bindir=%{_bindir} \
+	datadir=%{_datadir}/%{name}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/games/%{name},%{_desktopdir},%{_pixmapsdir}}
 
-install widelands $RPM_BUILD_ROOT%{_bindir}
-install pics/wl-logo-64.png $RPM_BUILD_ROOT%{_pixmapsdir}/widelands.png
-cp -r campaigns fonts maps music pics sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
+%scons install \
+	install_prefix=$RPM_BUILD_ROOT%{_prefix} \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
+	datadir=$RPM_BUILD_ROOT%{_datadir}/%{name}
 
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+
+install pics/wl-ico-128.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -81,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog
-%attr(755,root,root) %{_bindir}/widelands
-%{_datadir}/games/widelands
-%{_desktopdir}/widelands.desktop
-%{_pixmapsdir}/widelands.png
+%attr(755,root,root) %{_bindir}/%{name}
+%{_datadir}/%{name}
+%{_desktopdir}/%{name}.desktop
+%{_pixmapsdir}/%{name}.png
