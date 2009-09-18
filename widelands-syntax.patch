@@ -1,0 +1,29 @@
+--- widelands/src/graphic/graphic.cc~	2009-08-21 22:25:48.000000000 +0200
++++ widelands/src/graphic/graphic.cc	2009-09-18 15:33:14.000000000 +0200
+@@ -690,14 +690,19 @@
+ 	//delete pic->surface;
+ 	//pic.surface = 0;
+ 	//pic.module = 0;
++	
++struct S {
++	Picturemap::      iterator       current;
++	Picturemap::const_iterator const end;
++};
++
++S it = {
++	m_picturemap[picid->module].begin(),
++	m_picturemap[picid->module].end  ()
++};
++
+ 	for
+-		(struct {
+-		 	Picturemap::      iterator       current;
+-		 	Picturemap::const_iterator const end;
+-		 } it = {
+-		 	m_picturemap[picid->module].begin(),
+-		 	m_picturemap[picid->module].end  ()
+-		 };
++		(;
+ 		 it.current != it.end;
+ 		 ++it.current)
+ 		if (it.current->second == picid) {
