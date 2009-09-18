@@ -2,7 +2,6 @@
 # TODO:
 # - translations
 # - create bcond for ggz
-# - fix syntax in src/graphic/graphic.cc
 #
 %define		_build	14
 %define		_rc	RC
@@ -16,6 +15,7 @@ Group:		X11/Applications/Games
 Source0:	http://dl.sourceforge.net/widelands/Widelands-Build%{_build}%{_rc}-src.tar.bz2
 # Source0-md5:	767e22f66401fa98eab8c31fa183dc68
 Source1:	%{name}.desktop
+Patch0:		%{name}-syntax.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.11
 BuildRequires:	SDL_gfx-devel
@@ -53,6 +53,7 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 %{__sed} -i 's/framework-mt/framework/' SConstruct
 
 %build
