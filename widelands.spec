@@ -58,10 +58,11 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 
 %build
 %scons -j 1 \
-	install_prefix=%{_prefix} \
-	bindir=%{_bindir} \
-	datadir=%{_datadir}/%{name} \
-	enable_ggz=false
+	build="release" \
+	install_prefix="%{_prefix}" \
+	bindir="%{_bindir}" \
+	datadir="%{_datadir}/%{name}" \
+	enable_ggz="false"
 
 %install
 rm -rf $RPM_BUILD_ROOT
