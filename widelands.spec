@@ -1,18 +1,21 @@
 #
 # TODO:
 # - translations
+# - create bcond for ggz
+# - could not find file or directory: pics/splash.jpg
 #
-%define		_build	13
+%define		_build	14
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.build%{_build}
 Release:	0.1
-License:	GPL
+License:	GPL v2+
 Group:		X11/Applications/Games
-Source0:	http://dl.sourceforge.net/widelands/Widelands-Build%{_build}-src.tar.bz2
-# Source0-md5:	5e39f80b668d303abf693c48afa0c4bc
+Source0:	http://dl.sourceforge.net/widelands/Widelands-Build%{_build}-src.7z
+# Source0-md5:	06d63783b82b68af7af26198bc0a5afa
 Source1:	%{name}.desktop
+Patch0:		%{name}-syntax.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.11
 BuildRequires:	SDL_gfx-devel
@@ -23,7 +26,9 @@ BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	boost-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:	p7zip
 BuildRequires:	scons
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,13 +53,18 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 światem, będziesz musiał wyszkolić żołnierzy i walczyć.
 
 %prep
-%setup -q -n %{name}-b%{_build}
+%setup -q -c -T -n %{name}
+7z x -o.. %{SOURCE0}
+%patch0 -p1
+%{__sed} -i 's/framework-mt/framework/' SConstruct
 
 %build
-%scons \
-	install_prefix=%{_prefix} \
-	bindir=%{_bindir} \
-	datadir=%{_datadir}/%{name}
+%scons -j 1 \
+	build="release" \
+	install_prefix="%{_prefix}" \
+	bindir="%{_bindir}" \
+	datadir="%{_datadir}/%{name}" \
+	enable_ggz="false"
 
 %install
 rm -rf $RPM_BUILD_ROOT
