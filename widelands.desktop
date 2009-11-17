@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Widelands
-Comment=Clone of the game Settlers II
-Comment[pl]=Klon gry Settlers II
-Exec=widelands
-Icon=widelands
-Type=Application
-Categories=Game;StrategyGame;
-# vi: encoding=utf-8
