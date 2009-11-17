@@ -15,6 +15,8 @@ Source0:	http://dl.sourceforge.net/widelands/Widelands-Build%{buildver}-src.7z
 Source1:	%{name}.desktop
 #Patch0:		%{name}-syntax.patch
 URL:		http://widelands.sourceforge.net/
+BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2.11
 BuildRequires:	SDL_gfx-devel
 BuildRequires:	SDL_image-devel
@@ -22,6 +24,7 @@ BuildRequires:	SDL_mixer-devel >= 1.2.7
 BuildRequires:	SDL_net-devel
 BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	boost-devel >= 1.35
+BuildRequires:	gettext-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	p7zip
