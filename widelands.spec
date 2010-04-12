@@ -1,6 +1,7 @@
 #
 # TODO:
 # - create bcond for ggz
+# - fix translations
 #
 %define		buildver	15
 %define		_rc		rc2
@@ -8,7 +9,7 @@ Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.build%{buildver}
-Release:	0.6
+Release:	0.%{_rc}.1
 License:	GPL v2+
 Group:		X11/Applications/Games
 Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}-%{_rc}/+download/%{name}-build%{buildver}-%{_rc}-src.tar.bz2
