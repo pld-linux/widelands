@@ -2,7 +2,8 @@
 # TODO:
 # - create bcond for ggz
 #
-%define		buildver	14
+%define		buildver	15
+%define		_rc		rc2
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
@@ -10,10 +11,9 @@ Version:	0.build%{buildver}
 Release:	0.6
 License:	GPL v2+
 Group:		X11/Applications/Games
-Source0:	http://dl.sourceforge.net/widelands/Widelands-Build%{buildver}-src.7z
-# Source0-md5:	06d63783b82b68af7af26198bc0a5afa
+Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}-%{_rc}/+download/%{name}-build%{buildver}-%{_rc}-src.tar.bz2
+# Source0-md5:	ed10901e3c4e5a45c9d61b4c3682886e
 Source1:	%{name}.desktop
-#Patch0:		%{name}-syntax.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-devel
@@ -24,12 +24,11 @@ BuildRequires:	SDL_mixer-devel >= 1.2.7
 BuildRequires:	SDL_net-devel
 BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	boost-devel >= 1.35
+BuildRequires:	cmake
 BuildRequires:	gettext-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	p7zip
-BuildRequires:	scons
-BuildRequires:	sed >= 4.0
 Requires:	SDL_image >= 1.2.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -55,36 +54,26 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 światem, będziesz musiał wyszkolić żołnierzy i walczyć.
 
 %prep
-%setup -q -c -T -n %{name}
-7z x -o.. %{SOURCE0}
-#%%patch0 -p1
-#%{__sed} -i 's/framework-mt/framework/' SConstruct
-
-%{__sed} -i '/env.strip=1/d' build/scons-tools/scons_configure.py
+%setup -q -n %{name}-build%{buildver}-%{_rc}-src
 
 %build
-%scons \
-	cxx="%{__cxx}" \
-	cc="%{__cc}" \
-	extra_compile_flags="%{rpmcxxflags} -O0" \
-	extra_link_flags="%{rpmcxxflags} %{rpmldflags}" \
-	build="release" \
-	pretty_compile_output="false" \
-	install_prefix="" \
-	bindir="%{_bindir}" \
-	datadir="%{_datadir}/games/%{name}" \
-	localedir="%{_datadir}/games/%{name}/locale" \
-	enable_ggz="false"
+install -d build
+cd build
+%cmake .. \
+	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
+	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DWL_INSTALL_BINDIR=bin
+%if "%{_lib}" == "lib64"
+	-DLIB_SUFFIX=64
+%endif
+
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__scons} install \
-	build="release" \
-	install_prefix="$RPM_BUILD_ROOT%{_prefix}" \
-	bindir="$RPM_BUILD_ROOT%{_bindir}" \
-	datadir="$RPM_BUILD_ROOT%{_datadir}/games/%{name}" \
-	localedir="$RPM_BUILD_ROOT%{_datadir}/games/%{name}/locale" \
+%{__make} -C build install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
@@ -111,20 +100,34 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/games/%{name}/txts
 %{_datadir}/games/%{name}/worlds
 %dir %{_datadir}/games/%{name}/locale
-%lang(cs) %{_datadir}/games/%{name}/locale/cs_CZ
-%lang(da) %{_datadir}/games/%{name}/locale/da_DK
-%lang(de) %{_datadir}/games/%{name}/locale/de_DE
-%lang(es) %{_datadir}/games/%{name}/locale/es_ES
-%lang(fi) %{_datadir}/games/%{name}/locale/fi_FI
-%lang(fr) %{_datadir}/games/%{name}/locale/fr_FR
-%lang(gl) %{_datadir}/games/%{name}/locale/gl_ES
-%lang(he) %{_datadir}/games/%{name}/locale/he_HE
-%lang(hu) %{_datadir}/games/%{name}/locale/hu_HU
-%lang(it) %{_datadir}/games/%{name}/locale/it_IT
-%lang(nl) %{_datadir}/games/%{name}/locale/nl_NL
-%lang(pl) %{_datadir}/games/%{name}/locale/pl_PL
-%lang(ru) %{_datadir}/games/%{name}/locale/ru_RU
-%lang(sk) %{_datadir}/games/%{name}/locale/sk_SK
-%lang(sv) %{_datadir}/games/%{name}/locale/sv_SE
+%lang(ar) %{_datadir}/games/%{name}/locale/ar
+%lang(ca) %{_datadir}/games/%{name}/locale/ca
+%lang(cs) %{_datadir}/games/%{name}/locale/cs
+%lang(da) %{_datadir}/games/%{name}/locale/da
+%lang(de) %{_datadir}/games/%{name}/locale/de
+%lang(en_GB) %{_datadir}/games/%{name}/locale/en_GB
+%lang(eo) %{_datadir}/games/%{name}/locale/eo
+%lang(es) %{_datadir}/games/%{name}/locale/es
+%lang(eu) %{_datadir}/games/%{name}/locale/eu
+%lang(fi) %{_datadir}/games/%{name}/locale/fi
+%lang(fr) %{_datadir}/games/%{name}/locale/fr
+%lang(gl) %{_datadir}/games/%{name}/locale/gl
+%lang(he) %{_datadir}/games/%{name}/locale/he
+%lang(hu) %{_datadir}/games/%{name}/locale/hu
+%lang(ia) %{_datadir}/games/%{name}/locale/ia
+%lang(id) %{_datadir}/games/%{name}/locale/id
+%lang(it) %{_datadir}/games/%{name}/locale/it
+%lang(ja) %{_datadir}/games/%{name}/locale/ja
+%lang(la) %{_datadir}/games/%{name}/locale/la
+%lang(nl) %{_datadir}/games/%{name}/locale/nl
+%lang(nn) %{_datadir}/games/%{name}/locale/nn
+%lang(pl) %{_datadir}/games/%{name}/locale/pl
+%lang(pt_BR) %{_datadir}/games/%{name}/locale/pt_BR
+%lang(ru) %{_datadir}/games/%{name}/locale/ru
+%lang(si) %{_datadir}/games/%{name}/locale/si
+%lang(sk) %{_datadir}/games/%{name}/locale/sk
+%lang(sl) %{_datadir}/games/%{name}/locale/sl
+%lang(sr) %{_datadir}/games/%{name}/locale/sr
+%lang(sv) %{_datadir}/games/%{name}/locale/sv
 %{_desktopdir}/%{name}.desktop
 %{_pixmapsdir}/%{name}.png
