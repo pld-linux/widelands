@@ -1,20 +1,19 @@
 #
 # TODO:
 # - create bcond for ggz
-# - fix translations
 #
 %define		buildver	15
-%define		_rc		rc2
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.build%{buildver}
-Release:	0.%{_rc}.1
+Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications/Games
-Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}-%{_rc}/+download/%{name}-build%{buildver}-%{_rc}-src.tar.bz2
-# Source0-md5:	ed10901e3c4e5a45c9d61b4c3682886e
+Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}/+download/%{name}-build%{buildver}-src.tar.bz2
+# Source0-md5:	5b2e2d0913272f66055e424f91360b1d
 Source1:	%{name}.desktop
+Patch0:		%{name}-locale.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-devel
@@ -27,9 +26,10 @@ BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	boost-devel >= 1.35
 BuildRequires:	cmake
 BuildRequires:	gettext-devel
+BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:	p7zip
+BuildRequires:	libtiff-devel
 Requires:	SDL_image >= 1.2.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -55,18 +55,22 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 światem, będziesz musiał wyszkolić żołnierzy i walczyć.
 
 %prep
-%setup -q -n %{name}-build%{buildver}-%{_rc}-src
+%setup -q -n %{name}-build%{buildver}-src
+%patch0 -p1
 
 %build
 install -d build
 cd build
-%cmake .. \
+%cmake \
 	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-DWL_INSTALL_BINDIR=bin
+	-DWL_INSTALL_BINDIR=%{_bindir} \
+	-DWL_INSTALL_DATADIR=%{_datadir}/games/%{name} \
+	-DWL_INSTALL_LOCALEDIR=%{_datadir}/games/%{name}/locale \
 %if "%{_lib}" == "lib64"
-	-DLIB_SUFFIX=64
+	-DLIB_SUFFIX=64 \
 %endif
+	..
 
 %{__make}
 
