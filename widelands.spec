@@ -14,6 +14,7 @@ Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}/+downl
 # Source0-md5:	5b2e2d0913272f66055e424f91360b1d
 Source1:	%{name}.desktop
 Patch0:		%{name}-locale.patch
+Patch1:		%{name}-gcc-4.5.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-devel
@@ -57,6 +58,7 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 %prep
 %setup -q -n %{name}-build%{buildver}-src
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
