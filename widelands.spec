@@ -16,8 +16,6 @@ Source1:	%{name}.desktop
 Patch0:		%{name}-locale.patch
 Patch1:		%{name}-gcc-4.5.patch
 URL:		http://widelands.sourceforge.net/
-BuildRequires:	OpenGL-GLU-devel
-BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.2.11
 BuildRequires:	SDL_gfx-devel
 BuildRequires:	SDL_image-devel
@@ -31,6 +29,9 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	lua51-devel
+BuildRequires:	python
+BuildRequires:	python-modules
 Requires:	SDL_image >= 1.2.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
