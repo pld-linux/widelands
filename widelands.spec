@@ -1,8 +1,9 @@
 #
 # TODO:
 # - create bcond for ggz
+# - check locales
 #
-%define		buildver	15
+%define		buildver	16
 Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
@@ -11,10 +12,8 @@ Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Games
 Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}/+download/%{name}-build%{buildver}-src.tar.bz2
-# Source0-md5:	5b2e2d0913272f66055e424f91360b1d
+# Source0-md5:	3d8c28e145b73c64d8ed1625319d25a2
 Source1:	%{name}.desktop
-Patch0:		%{name}-locale.patch
-Patch1:		%{name}-gcc-4.5.patch
 URL:		http://widelands.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.11
 BuildRequires:	SDL_gfx-devel
@@ -25,6 +24,7 @@ BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	boost-devel >= 1.35
 BuildRequires:	cmake
 BuildRequires:	gettext-devel
+BuildRequires:	glew-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
@@ -32,6 +32,7 @@ BuildRequires:	libtiff-devel
 BuildRequires:	lua51-devel
 BuildRequires:	python
 BuildRequires:	python-modules
+BuildRequires:	rpmbuild(macros) >= 1.600
 Requires:	SDL_image >= 1.2.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -58,24 +59,18 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 
 %prep
 %setup -q -n %{name}-build%{buildver}-src
-%patch0 -p1
-%patch1 -p1
 
 %build
 install -d build
 cd build
 %cmake \
-	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
-	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DWL_INSTALL_BINDIR=%{_bindir} \
 	-DWL_INSTALL_DATADIR=%{_datadir}/games/%{name} \
 	-DWL_INSTALL_LOCALEDIR=%{_datadir}/games/%{name}/locale \
-%if "%{_lib}" == "lib64"
-	-DLIB_SUFFIX=64 \
-%endif
 	..
 
 %{__make}
+%{__make} lang
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -83,9 +78,20 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_datadir}/games/%{name},%{_desktopdir},%{_pixmapsdir}}
 
-install pics/wl-ico-128.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+# install data
+cp -a campaigns fonts global maps music pics scripting sound tribes txts worlds $RPM_BUILD_ROOT%{_datadir}/games/%{name}
+
+# locales
+cp -a build/locale $RPM_BUILD_ROOT%{_datadir}/games/%{name}
+
+# unsupported locales
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/games/%{name}/locale/en_AU
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/games/%{name}/locale/en_CA
+
+# desktop and icon
+cp -a pics/wl-ico-128.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 %clean
@@ -96,19 +102,20 @@ rm -rf $RPM_BUILD_ROOT
 %doc ChangeLog CREDITS
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_datadir}/games/%{name}
-%{_datadir}/games/%{name}/VERSION
 %{_datadir}/games/%{name}/campaigns
 %{_datadir}/games/%{name}/fonts
 %{_datadir}/games/%{name}/global
 %{_datadir}/games/%{name}/maps
 %{_datadir}/games/%{name}/music
 %{_datadir}/games/%{name}/pics
+%{_datadir}/games/%{name}/scripting
 %{_datadir}/games/%{name}/sound
 %{_datadir}/games/%{name}/tribes
 %{_datadir}/games/%{name}/txts
 %{_datadir}/games/%{name}/worlds
 %dir %{_datadir}/games/%{name}/locale
 %lang(ar) %{_datadir}/games/%{name}/locale/ar
+%lang(ast) %{_datadir}/games/%{name}/locale/ast
 %lang(ca) %{_datadir}/games/%{name}/locale/ca
 %lang(cs) %{_datadir}/games/%{name}/locale/cs
 %lang(da) %{_datadir}/games/%{name}/locale/da
@@ -116,7 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en_GB) %{_datadir}/games/%{name}/locale/en_GB
 %lang(eo) %{_datadir}/games/%{name}/locale/eo
 %lang(es) %{_datadir}/games/%{name}/locale/es
+%lang(et) %{_datadir}/games/%{name}/locale/et
 %lang(eu) %{_datadir}/games/%{name}/locale/eu
+%lang(fa) %{_datadir}/games/%{name}/locale/fa
 %lang(fi) %{_datadir}/games/%{name}/locale/fi
 %lang(fr) %{_datadir}/games/%{name}/locale/fr
 %lang(gl) %{_datadir}/games/%{name}/locale/gl
@@ -126,10 +135,15 @@ rm -rf $RPM_BUILD_ROOT
 %lang(id) %{_datadir}/games/%{name}/locale/id
 %lang(it) %{_datadir}/games/%{name}/locale/it
 %lang(ja) %{_datadir}/games/%{name}/locale/ja
+%lang(ko) %{_datadir}/games/%{name}/locale/ko
 %lang(la) %{_datadir}/games/%{name}/locale/la
+%lang(ms) %{_datadir}/games/%{name}/locale/ms
+%lang(nb) %{_datadir}/games/%{name}/locale/nb
 %lang(nl) %{_datadir}/games/%{name}/locale/nl
 %lang(nn) %{_datadir}/games/%{name}/locale/nn
+%lang(oc) %{_datadir}/games/%{name}/locale/oc
 %lang(pl) %{_datadir}/games/%{name}/locale/pl
+%lang(pt) %{_datadir}/games/%{name}/locale/pt
 %lang(pt_BR) %{_datadir}/games/%{name}/locale/pt_BR
 %lang(ru) %{_datadir}/games/%{name}/locale/ru
 %lang(si) %{_datadir}/games/%{name}/locale/si
@@ -137,5 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sl) %{_datadir}/games/%{name}/locale/sl
 %lang(sr) %{_datadir}/games/%{name}/locale/sr
 %lang(sv) %{_datadir}/games/%{name}/locale/sv
+%lang(tr) %{_datadir}/games/%{name}/locale/tr
+%lang(uk) %{_datadir}/games/%{name}/locale/uk
+%lang(vi) %{_datadir}/games/%{name}/locale/vi
+%lang(zh_CN) %{_datadir}/games/%{name}/locale/zh_CN
 %{_desktopdir}/%{name}.desktop
 %{_pixmapsdir}/%{name}.png
