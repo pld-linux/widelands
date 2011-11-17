@@ -8,7 +8,7 @@ Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.build%{buildver}
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Games
 Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}/+download/%{name}-build%{buildver}-src.tar.bz2
