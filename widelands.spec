@@ -25,6 +25,7 @@ BuildRequires:	boost-devel >= 1.35
 BuildRequires:	cmake
 BuildRequires:	gettext-devel
 BuildRequires:	glew-devel
+BuildRequires:	ggz-client-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
