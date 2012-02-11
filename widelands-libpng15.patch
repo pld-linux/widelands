@@ -1,0 +1,76 @@
+--- widelands-build16-src/src/graphic/SDL_mng.cc.orig	2012-02-11 10:20:23.248971926 +0100
++++ widelands-build16-src/src/graphic/SDL_mng.cc	2012-02-11 10:21:08.652535416 +0100
+@@ -239,7 +239,7 @@
+ SDL_Surface * MNG_read_frame(SDL_RWops * const src)
+ {
+ 	png_uint_32 width, height;
+-	int bit_depth, color_type, interlace_type;
++	int bit_depth, color_type, interlace_type, num_palette;
+ 	Uint32 Rmask;
+ 	Uint32 Gmask;
+ 	Uint32 Bmask;
+@@ -247,6 +247,7 @@
+ 	SDL_Palette * palette;
+ 	volatile int ckey = -1;
+ 	png_color_16 * transv;
++	png_colorp png_palette;
+ 
+ 	/* Initialize the data we will clean up when we're done */
+ 	png_structp png_ptr = 0;
+@@ -276,7 +277,7 @@
+ 	 * the normal method of doing things with libpng).  REQUIRED unless you
+ 	 * set up your own error handlers in png_create_read_struct() earlier.
+ 	 */
+-	if (setjmp(png_ptr->jmpbuf)) {
++	if (setjmp(png_jmpbuf(png_ptr))) {
+ 		SDL_SetError("Error reading the PNG file.");
+ 		goto done;
+ 	}
+@@ -356,9 +357,9 @@
+ 			Rmask = 0x000000FF;
+ 			Gmask = 0x0000FF00;
+ 			Bmask = 0x00FF0000;
+-			Amask = (info_ptr->channels == 4) ? 0xFF000000 : 0;
++			Amask = (png_get_channels(png_ptr, info_ptr) == 4) ? 0xFF000000 : 0;
+ 		} else {
+-			int const s = (info_ptr->channels == 4) ? 0 : 8;
++			int const s = (png_get_channels(png_ptr, info_ptr) == 4) ? 0 : 8;
+ 			Rmask = 0xFF000000 >> s;
+ 			Gmask = 0x00FF0000 >> s;
+ 			Bmask = 0x0000FF00 >> s;
+@@ -370,7 +370,7 @@
+ 		SDL_AllocSurface
+ 			(SDL_SWSURFACE,
+ 			 width, height,
+-			 bit_depth * info_ptr->channels,
++			 bit_depth * png_get_channels(png_ptr, info_ptr),
+ 			 Rmask, Gmask, Bmask, Amask);
+ 	if (not surface) {
+ 		SDL_SetError("Out of memory");
+@@ -408,6 +409,7 @@
+ 	png_read_end(png_ptr, info_ptr);
+ 
+ 	/* Load the palette, if any */
++	png_get_PLTE(png_ptr, info_ptr, &png_palette, &num_palette);
+ 	if ((palette = surface->format->palette)) {
+ 		if (color_type == PNG_COLOR_TYPE_GRAY) {
+ 			palette->ncolors = 256;
+@@ -416,12 +418,12 @@
+ 				palette->colors[i].g = i;
+ 				palette->colors[i].b = i;
+ 			}
+-		} else if (info_ptr->num_palette > 0) {
+-			palette->ncolors = info_ptr->num_palette;
+-			for (uint32_t i = 0; i < info_ptr->num_palette; ++i) {
+-				palette->colors[i].b = info_ptr->palette[i].blue;
+-				palette->colors[i].g = info_ptr->palette[i].green;
+-				palette->colors[i].r = info_ptr->palette[i].red;
++		} else if (num_palette > 0) {
++			palette->ncolors = num_palette;
++			for (uint32_t i = 0; i < num_palette; ++i) {
++				palette->colors[i].b = png_palette[i].blue;
++				palette->colors[i].g = png_palette[i].green;
++				palette->colors[i].r = png_palette[i].red;
+ 			}
+ 		}
+ 	}
