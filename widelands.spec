@@ -24,7 +24,7 @@ BuildRequires:	SDL_net-devel
 BuildRequires:	SDL_ttf-devel >= 2.0.0
 BuildRequires:	boost-devel >= 1.35
 BuildRequires:	cmake
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glew-devel
 BuildRequires:	ggz-client-libs-devel
 BuildRequires:	libjpeg-devel
