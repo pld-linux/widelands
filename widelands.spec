@@ -1,4 +1,3 @@
-#
 # TODO:
 # - create bcond for ggz
 # - check locales
@@ -8,7 +7,7 @@ Summary:	Game like Settlers II
 Summary(pl.UTF-8):	Remake gry Settlers II
 Name:		widelands
 Version:	0.build%{buildver}
-Release:	9
+Release:	10
 License:	GPL v2+
 Group:		X11/Applications/Games
 Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}/+download/%{name}-build%{buildver}-src.tar.bz2
@@ -35,6 +34,7 @@ BuildRequires:	lua51-devel
 BuildRequires:	python
 BuildRequires:	python-modules
 BuildRequires:	rpmbuild(macros) >= 1.600
+Requires:	%{name}-data = %{version}-%{release}
 Requires:	SDL_image >= 1.2.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -59,6 +59,17 @@ spotkać się z innymi plemionami. Niektóre z nich mogą być przyjaźnie
 nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 światem, będziesz musiał wyszkolić żołnierzy i walczyć.
 
+%package data
+Summary:	Game like Settlers II - data files
+License:	GPL v2+
+Group:		X11/Applications/Games
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
+
+%description data
+Game like Settlers II - data files.
+
 %prep
 %setup -q -n %{name}-build%{buildver}-src
 %patch0 -p1
@@ -77,7 +88,6 @@ cd build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -94,8 +104,8 @@ cp -a build/locale $RPM_BUILD_ROOT%{_datadir}/games/%{name}
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/games/%{name}/locale/en_CA
 
 # desktop and icon
-cp -a pics/wl-ico-128.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+cp -p pics/wl-ico-128.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -104,6 +114,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog CREDITS
 %attr(755,root,root) %{_bindir}/%{name}
+%{_desktopdir}/%{name}.desktop
+%{_pixmapsdir}/%{name}.png
+
+%files data
+%defattr(644,root,root,755)
 %dir %{_datadir}/games/%{name}
 %{_datadir}/games/%{name}/campaigns
 %{_datadir}/games/%{name}/fonts
@@ -158,5 +173,3 @@ rm -rf $RPM_BUILD_ROOT
 %lang(uk) %{_datadir}/games/%{name}/locale/uk
 %lang(vi) %{_datadir}/games/%{name}/locale/vi
 %lang(zh_CN) %{_datadir}/games/%{name}/locale/zh_CN
-%{_desktopdir}/%{name}.desktop
-%{_pixmapsdir}/%{name}.png
