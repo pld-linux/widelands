@@ -61,9 +61,7 @@ nastawione i rozpocząć z Tobą handel. Jednak, jeśli chcesz rządzić
 Summary:	A real-time build-up strategy game - data files
 Summary(pl.UTF-8):	Gra strategiczna czasu rzeczywistego z budowaniem - pliki danych
 Group:		X11/Applications/Games
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description data
 Data files for Widelands, a real-time build-up strategy game inspired
