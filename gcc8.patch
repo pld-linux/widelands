@@ -7,4 +7,4 @@
 -wl_add_flag(WL_COMPILE_DIAGNOSTICS "-Werror=uninitialized")
  
  IF (WIN32)
-   add_definitions(-DMINGW_HAS_SECURE_API)
+   add_definitions(-DMINGW_HAS_SECURE_API -DWIN32_LEAN_AND_MEAN -D__STDC_FORMAT_MACROS -D__USE_MINGW_ANSI_STDIO)
