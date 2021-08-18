@@ -6,26 +6,28 @@
 Summary:	A real-time build-up strategy game
 Summary(pl.UTF-8):	Gra strategiczna czasu rzeczywistego z budowaniem
 Name:		widelands
-Version:	0.build%{buildver}
-Release:	2
+Version:	1.0
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Games
 #Source0Download: https://wl.widelands.org/wiki/Download/#release
-Source0:	http://launchpad.net/widelands/build%{buildver}/build%{buildver}/+download/%{name}-build%{buildver}-source.tar.gz
-# Source0-md5:	2933da247b2009f5608e92624d606851
+Source0:	https://launchpad.net/%{name}/1.x/%{version}/+download/%{name}-%{version}.tar.gz
+# Source0-md5:	ac576b20273205a09bc1e6dc19550499
 Patch0:		%{name}-pld.patch
-Patch1:		gcc8.patch
-Patch2:		%{name}-install.patch
+Patch1:		%{name}-install.patch
 URL:		https://wl.widelands.org/
-BuildRequires:	OpenGL-devel
+BuildRequires:	Mesa-libGL-devel
 BuildRequires:	SDL2-devel >= 2
 BuildRequires:	SDL2_image-devel >= 2
 BuildRequires:	SDL2_mixer-devel >= 2
 BuildRequires:	SDL2_ttf-devel >= 2.0.12
 BuildRequires:	boost-devel >= 1.48
 BuildRequires:	cmake >= 2.8.7
+BuildRequires:	curl-devel
+BuildRequires:	doxygen
 BuildRequires:	gettext-tools
 BuildRequires:	glew-devel
+BuildRequires:	graphviz
 BuildRequires:	libicu-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel >= 6:4.8
@@ -72,10 +74,9 @@ Pliki danych do Widelands - gry strategicznej czasu rzeczywistego z
 budowaniem, zainspirowanej Settlers II.
 
 %prep
-%setup -q -n %{name}-build%{buildver}
+%setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 install -d build
@@ -98,6 +99,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%update_desktop_database
+%update_icon_cache hicolor
+
+%postun
+%update_desktop_database
+%update_icon_cache hicolor
 
 %files
 %defattr(644,root,root,755)
