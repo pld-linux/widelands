@@ -1,0 +1,10 @@
+--- widelands-1.0/src/network/bufferedconnection.h~	2021-06-14 11:22:20.000000000 +0200
++++ widelands-1.0/src/network/bufferedconnection.h	2022-01-22 22:32:52.167781192 +0100
+@@ -20,6 +20,7 @@
+ #ifndef WL_NETWORK_BUFFEREDCONNECTION_H
+ #define WL_NETWORK_BUFFEREDCONNECTION_H
+ 
++#include <map>
+ #include <memory>
+ #include <mutex>
+ #include <thread>
