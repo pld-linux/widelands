@@ -1,9 +1,9 @@
---- widelands-build21/CMakeLists.txt.orig	2020-07-12 21:33:44.000000000 +0200
-+++ widelands-build21/CMakeLists.txt	2020-07-28 21:55:52.652415900 +0200
-@@ -201,6 +201,10 @@
-   endif ()
-   set(WL_DEBUG_FLAGS "-DNDEBUG -DNOPARACHUTE")
-   option(OPTION_ASAN "Build with AddressSanitizer" ON)
+--- widelands-1.1/CMakeLists.txt~	2022-10-22 11:51:16.000000000 +0000
++++ widelands-1.1/CMakeLists.txt	2023-02-04 16:06:13.829565579 +0000
+@@ -251,6 +251,10 @@
+   endif()
+ elseif(CMAKE_BUILD_TYPE STREQUAL "None")
+   message(STATUS "Not setting any default flags.")
 +elseif(CMAKE_BUILD_TYPE STREQUAL "PLD")
 +  set(WL_OPTIMIZE_FLAGS "")
 +  set(WL_DEBUG_FLAGS "-DNDEBUG -DNOPARACHUTE")
@@ -11,60 +11,68 @@
  else()
    message(FATAL_ERROR "Unknown CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
  endif()
-@@ -353,7 +357,6 @@
+@@ -372,7 +376,7 @@
+ endif()
+ 
+ if(NOT MSVC)
+-  if(CMAKE_BUILD_TYPE STREQUAL "Release")
++	if( (CMAKE_BUILD_TYPE STREQUAL "PLD") OR (CMAKE_BUILD_TYPE STREQUAL "Release") )
+     message(STATUS "Compiler warnings will be ignored.")
+   elseif(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") AND 
+          (NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.0)) AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.2))
+@@ -500,7 +504,6 @@
  install (
    FILES ${CMAKE_CURRENT_BINARY_DIR}/VERSION
    DESTINATION ${WL_INSTALL_BASEDIR}
--  CONFIGURATIONS Debug;Release
+-  CONFIGURATIONS Debug;Release;None
    COMPONENT CoreVersionFile
  )
  
-@@ -378,7 +381,6 @@
+@@ -516,7 +519,6 @@
+   FILES
+     data/datadirversion
+   DESTINATION ${WL_INSTALL_DATADIR}
+-  CONFIGURATIONS Debug;Release;None
+   COMPONENT VersionFile
+ )
+ 
+@@ -533,7 +535,6 @@
      data/txts
      data/world
    DESTINATION ${WL_INSTALL_DATADIR}
--  CONFIGURATIONS Debug;Release
+-  CONFIGURATIONS Debug;Release;None
    COMPONENT CoreDataFiles
  )
  
-@@ -386,7 +388,6 @@
+@@ -541,7 +542,6 @@
    DIRECTORY
      data/maps
    DESTINATION ${WL_INSTALL_DATADIR}
--  CONFIGURATIONS Debug;Release
+-  CONFIGURATIONS Debug;Release;None
    COMPONENT MapFiles
  )
  
-@@ -395,7 +396,6 @@
+@@ -550,7 +550,6 @@
      data/music
      data/sound
    DESTINATION ${WL_INSTALL_DATADIR}
--  CONFIGURATIONS Debug;Release
+-  CONFIGURATIONS Debug;Release;None
    COMPONENT MusicFiles
  )
  
-@@ -405,7 +405,6 @@
+@@ -560,7 +559,6 @@
      CREDITS
      ChangeLog
    DESTINATION ${WL_INSTALL_BASEDIR}
--  CONFIGURATIONS Debug;Release
+-  CONFIGURATIONS Debug;Release;None
    COMPONENT CoreLicenseFiles
  )
  
-@@ -424,7 +423,6 @@
-   DIRECTORY
-     ${CMAKE_CURRENT_BINARY_DIR}/locale/
-   DESTINATION ${WL_INSTALL_DATADIR}/locale
--  CONFIGURATIONS Debug;Release
-   COMPONENT CoreLanguageFiles
- )
- 
---- widelands-build19-src/cmake/WlFunctions.cmake.orig	2016-11-10 08:28:01.000000000 +0100
-+++ widelands-build19-src/cmake/WlFunctions.cmake	2017-07-15 20:20:09.604392035 +0200
-@@ -276,5 +276,5 @@
- 
-   #Quoting the CMake documentation on DESTINATION:
-   #"If a relative path is given it is interpreted relative to the value of CMAKE_INSTALL_PREFIX"
--  install(TARGETS ${NAME} DESTINATION "." COMPONENT ExecutableFiles)
-+  install(TARGETS ${NAME} DESTINATION "bin" COMPONENT ExecutableFiles)
- endfunction()
+@@ -579,7 +577,6 @@
+     DIRECTORY
+       ${CMAKE_CURRENT_BINARY_DIR}/locale/
+     DESTINATION ${WL_INSTALL_DATADIR}/locale
+-    CONFIGURATIONS Debug;Release;None
+     COMPONENT CoreLanguageFiles
+   )
+ endif(OPTION_BUILD_TRANSLATIONS)
