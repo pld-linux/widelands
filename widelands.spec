@@ -6,7 +6,7 @@ Summary:	A real-time build-up strategy game
 Summary(pl.UTF-8):	Gra strategiczna czasu rzeczywistego z budowaniem
 Name:		widelands
 Version:	1.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Games
 #Source0Download: https://wl.widelands.org/wiki/Download/#release
