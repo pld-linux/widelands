@@ -13,6 +13,7 @@ Group:		X11/Applications/Games
 Source0:	https://github.com/widelands/widelands/archive/refs/tags/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	04d84445a479a976c6d82a032b685822
 Patch0:		%{name}-pld.patch
+Patch1:		gcc13.patch
 URL:		https://wl.widelands.org/
 BuildRequires:	Mesa-libGL-devel
 BuildRequires:	SDL2-devel >= 2
@@ -88,6 +89,7 @@ potrzebny do normalnej pracy.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
