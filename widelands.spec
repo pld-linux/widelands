@@ -22,7 +22,7 @@ BuildRequires:	SDL2_mixer-devel >= 2
 BuildRequires:	SDL2_ttf-devel >= 2.0.12
 BuildRequires:	asio-devel
 BuildRequires:	boost-devel >= 1.48
-BuildRequires:	cmake >= 2.8.7
+BuildRequires:	cmake >= 3.5
 BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	gettext-tools
