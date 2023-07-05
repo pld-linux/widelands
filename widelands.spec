@@ -34,6 +34,7 @@ BuildRequires:	libstdc++-devel >= 6:4.8
 BuildRequires:	minizip-devel
 BuildRequires:	python >= 2
 BuildRequires:	python-modules >= 2
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	zlib-devel
 Requires:	%{name}-data = %{version}-%{release}
