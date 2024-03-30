@@ -1,7 +1,7 @@
---- widelands-1.1/CMakeLists.txt~	2022-10-22 11:51:16.000000000 +0000
-+++ widelands-1.1/CMakeLists.txt	2023-02-04 16:06:13.829565579 +0000
-@@ -251,6 +251,10 @@
-   endif()
+--- widelands-1.2/CMakeLists.txt~	2024-03-28 10:12:05.000000000 +0000
++++ widelands-1.2/CMakeLists.txt	2024-03-30 10:51:23.584411957 +0000
+@@ -200,6 +200,10 @@
+   option(OPTION_ASAN "Build with AddressSanitizer" OFF)
  elseif(CMAKE_BUILD_TYPE STREQUAL "None")
    message(STATUS "Not setting any default flags.")
 +elseif(CMAKE_BUILD_TYPE STREQUAL "PLD")
@@ -11,16 +11,16 @@
  else()
    message(FATAL_ERROR "Unknown CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
  endif()
-@@ -372,7 +376,7 @@
+@@ -328,7 +332,7 @@
  endif()
  
  if(NOT MSVC)
 -  if(CMAKE_BUILD_TYPE STREQUAL "Release")
-+	if( (CMAKE_BUILD_TYPE STREQUAL "PLD") OR (CMAKE_BUILD_TYPE STREQUAL "Release") )
++  if( (CMAKE_BUILD_TYPE STREQUAL "PLD") OR (CMAKE_BUILD_TYPE STREQUAL "Release") )
      message(STATUS "Compiler warnings will be ignored.")
-   elseif(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") AND 
-          (NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.0)) AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.2))
-@@ -500,7 +504,6 @@
+   elseif(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") AND (
+          ((NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.0)) AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.2))
+@@ -482,7 +486,6 @@
  install (
    FILES ${CMAKE_CURRENT_BINARY_DIR}/VERSION
    DESTINATION ${WL_INSTALL_BASEDIR}
@@ -28,7 +28,7 @@
    COMPONENT CoreVersionFile
  )
  
-@@ -516,7 +519,6 @@
+@@ -498,7 +501,6 @@
    FILES
      data/datadirversion
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -36,7 +36,7 @@
    COMPONENT VersionFile
  )
  
-@@ -533,7 +535,6 @@
+@@ -515,7 +517,6 @@
      data/txts
      data/world
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -44,7 +44,7 @@
    COMPONENT CoreDataFiles
  )
  
-@@ -541,7 +542,6 @@
+@@ -523,7 +524,6 @@
    DIRECTORY
      data/maps
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -52,7 +52,7 @@
    COMPONENT MapFiles
  )
  
-@@ -550,7 +550,6 @@
+@@ -532,7 +532,6 @@
      data/music
      data/sound
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -60,7 +60,7 @@
    COMPONENT MusicFiles
  )
  
-@@ -560,7 +559,6 @@
+@@ -542,7 +541,6 @@
      CREDITS
      ChangeLog
    DESTINATION ${WL_INSTALL_BASEDIR}
@@ -68,7 +68,7 @@
    COMPONENT CoreLicenseFiles
  )
  
-@@ -579,7 +577,6 @@
+@@ -561,7 +559,6 @@
      DIRECTORY
        ${CMAKE_CURRENT_BINARY_DIR}/locale/
      DESTINATION ${WL_INSTALL_DATADIR}/locale
