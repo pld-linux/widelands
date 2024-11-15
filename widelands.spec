@@ -5,13 +5,13 @@
 Summary:	A real-time build-up strategy game
 Summary(pl.UTF-8):	Gra strategiczna czasu rzeczywistego z budowaniem
 Name:		widelands
-Version:	1.2
+Version:	1.2.1
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Games
 #Source0Download: https://wl.widelands.org/wiki/Download/#release
 Source0:	https://github.com/widelands/widelands/archive/refs/tags/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0c52ea59b7822616f10cfe36860e2642
+# Source0-md5:	51f835c83e6b1197ec416af634398843
 Patch0:		%{name}-pld.patch
 URL:		https://wl.widelands.org/
 BuildRequires:	Mesa-libGL-devel
