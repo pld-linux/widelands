@@ -1,6 +1,6 @@
---- widelands-1.2.1/CMakeLists.txt~	2024-11-12 20:03:25.000000000 +0000
-+++ widelands-1.2.1/CMakeLists.txt	2024-11-15 13:45:30.653051845 +0000
-@@ -201,6 +201,10 @@
+--- widelands-1.3/CMakeLists.txt~	2025-12-18 18:19:33.000000000 +0000
++++ widelands-1.3/CMakeLists.txt	2025-12-21 13:46:53.328184238 +0000
+@@ -214,6 +214,10 @@
    option(OPTION_ASAN "Build with AddressSanitizer" OFF)
  elseif(CMAKE_BUILD_TYPE STREQUAL "None")
    message(STATUS "Not setting any default flags.")
@@ -11,16 +11,16 @@
  else()
    message(FATAL_ERROR "Unknown CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
  endif()
-@@ -329,7 +333,7 @@
+@@ -363,7 +367,7 @@
  endif()
  
  if(NOT MSVC)
 -  if((CMAKE_BUILD_TYPE STREQUAL "Release") OR (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo"))
-+  if( (CMAKE_BUILD_TYPE STREQUAL "PLD") OR (CMAKE_BUILD_TYPE STREQUAL "Release") OR (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo"))
++  if((CMAKE_BUILD_TYPE STREQUAL "PLD") OR (CMAKE_BUILD_TYPE STREQUAL "Release") OR (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo"))
      message(STATUS "Compiler warnings will be ignored.")
    elseif(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") AND (
           ((NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.0)) AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.2))
-@@ -487,7 +491,6 @@
+@@ -522,7 +526,6 @@
  install (
    FILES ${CMAKE_CURRENT_BINARY_DIR}/VERSION
    DESTINATION ${WL_INSTALL_BASEDIR}
@@ -28,7 +28,7 @@
    COMPONENT CoreVersionFile
  )
  
-@@ -513,7 +516,6 @@
+@@ -545,7 +548,6 @@
    FILES
      data/datadirversion
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -36,7 +36,7 @@
    COMPONENT VersionFile
  )
  
-@@ -530,7 +532,6 @@
+@@ -562,7 +564,6 @@
      data/txts
      data/world
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -44,7 +44,7 @@
    COMPONENT CoreDataFiles
  )
  
-@@ -538,7 +539,6 @@
+@@ -570,7 +571,6 @@
    DIRECTORY
      data/maps
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -52,7 +52,7 @@
    COMPONENT MapFiles
  )
  
-@@ -547,7 +547,6 @@
+@@ -579,7 +579,6 @@
      data/music
      data/sound
    DESTINATION ${WL_INSTALL_DATADIR}
@@ -60,7 +60,7 @@
    COMPONENT MusicFiles
  )
  
-@@ -557,7 +556,6 @@
+@@ -589,7 +588,6 @@
      CREDITS
      ChangeLog
    DESTINATION ${WL_INSTALL_BASEDIR}
@@ -68,11 +68,11 @@
    COMPONENT CoreLicenseFiles
  )
  
-@@ -576,7 +574,6 @@
-     DIRECTORY
-       ${CMAKE_CURRENT_BINARY_DIR}/locale/
-     DESTINATION ${WL_INSTALL_DATADIR}/locale
--    CONFIGURATIONS Debug;Release;RelWithDebInfo;None
-     COMPONENT CoreLanguageFiles
-   )
- endif(OPTION_BUILD_TRANSLATIONS)
+@@ -597,7 +595,6 @@
+   DIRECTORY
+     doc
+   DESTINATION ${WL_INSTALL_BASEDIR}
+-  CONFIGURATIONS Debug
+   COMPONENT DocFiles
+   PATTERN "CMakeLists.txt" EXCLUDE
+ )

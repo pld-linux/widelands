@@ -5,13 +5,13 @@
 Summary:	A real-time build-up strategy game
 Summary(pl.UTF-8):	Gra strategiczna czasu rzeczywistego z budowaniem
 Name:		widelands
-Version:	1.2.1
-Release:	2
+Version:	1.3
+Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications/Games
 #Source0Download: https://wl.widelands.org/wiki/Download/#release
 Source0:	https://github.com/widelands/widelands/archive/refs/tags/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	51f835c83e6b1197ec416af634398843
+# Source0-md5:	749233228813421efc5802b58cce21bb
 Patch0:		%{name}-pld.patch
 URL:		https://wl.widelands.org/
 BuildRequires:	Mesa-libGL-devel
@@ -125,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog CREDITS
 %attr(755,root,root) %{_bindir}/widelands
-%{_datadir}/metainfo/org.widelands.Widelands.appdata.xml
+%{_datadir}/metainfo/org.widelands.Widelands.metainfo.xml
 %{_desktopdir}/org.widelands.Widelands.desktop
 %{_iconsdir}/hicolor/*x*/apps/org.widelands.Widelands.png
 %{_mandir}/man6/widelands.6*
@@ -206,59 +206,59 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_TW) %{_datadir}/%{name}/i18n/locales/zh_TW.json
 %{_datadir}/%{name}/i18n/translation_stats.conf
 %{_datadir}/%{name}/images
-%dir %{_datadir}/%{name}/locale
-%lang(ar) %{_datadir}/%{name}/locale/ar
-%lang(bg) %{_datadir}/%{name}/locale/bg
-%lang(br) %{_datadir}/%{name}/locale/br
-%lang(ca) %{_datadir}/%{name}/locale/ca
-%lang(cs) %{_datadir}/%{name}/locale/cs
-%lang(da) %{_datadir}/%{name}/locale/da
-%lang(de) %{_datadir}/%{name}/locale/de
-%lang(el) %{_datadir}/%{name}/locale/el
-%lang(en_GB) %{_datadir}/%{name}/locale/en_GB
-%lang(en_US) %{_datadir}/%{name}/locale/en_US
-%lang(eo) %{_datadir}/%{name}/locale/eo
-%lang(es) %{_datadir}/%{name}/locale/es
-%lang(eu) %{_datadir}/%{name}/locale/eu
-%lang(fa) %{_datadir}/%{name}/locale/fa
-%lang(fi) %{_datadir}/%{name}/locale/fi
-%lang(fr) %{_datadir}/%{name}/locale/fr
-%lang(fy) %{_datadir}/%{name}/locale/fy
-%lang(ga) %{_datadir}/%{name}/locale/ga
-%lang(gd) %{_datadir}/%{name}/locale/gd
-%lang(gl) %{_datadir}/%{name}/locale/gl
-%lang(he) %{_datadir}/%{name}/locale/he
-%lang(hi) %{_datadir}/%{name}/locale/hi
-%lang(hr) %{_datadir}/%{name}/locale/hr
-%lang(hu) %{_datadir}/%{name}/locale/hu
-%lang(id) %{_datadir}/%{name}/locale/id
-%lang(ig) %{_datadir}/%{name}/locale/ig
-%lang(it) %{_datadir}/%{name}/locale/it
-%lang(ja) %{_datadir}/%{name}/locale/ja
-%lang(ka) %{_datadir}/%{name}/locale/ka
-%lang(ko) %{_datadir}/%{name}/locale/ko
-%lang(krl) %{_datadir}/%{name}/locale/krl
-%lang(la) %{_datadir}/%{name}/locale/la
-%lang(lt) %{_datadir}/%{name}/locale/lt
-%lang(ms) %{_datadir}/%{name}/locale/ms
-%lang(nb) %{_datadir}/%{name}/locale/nb
-%lang(nds) %{_datadir}/%{name}/locale/nds
-%lang(nl) %{_datadir}/%{name}/locale/nl
-%lang(nn) %{_datadir}/%{name}/locale/nn
-%lang(pl) %{_datadir}/%{name}/locale/pl
-%lang(pt) %{_datadir}/%{name}/locale/pt
-%lang(pt_BR) %{_datadir}/%{name}/locale/pt_BR
-%lang(ro) %{_datadir}/%{name}/locale/ro
-%lang(ru) %{_datadir}/%{name}/locale/ru
-%lang(sk) %{_datadir}/%{name}/locale/sk
-%lang(sl) %{_datadir}/%{name}/locale/sl
-%lang(sr) %{_datadir}/%{name}/locale/sr
-%lang(sr_RS) %{_datadir}/%{name}/locale/sr_RS
-%lang(sv) %{_datadir}/%{name}/locale/sv
-%lang(tr) %{_datadir}/%{name}/locale/tr
-%lang(uk) %{_datadir}/%{name}/locale/uk
-%lang(zh_CN) %{_datadir}/%{name}/locale/zh_CN
-%lang(zh_TW) %{_datadir}/%{name}/locale/zh_TW
+#%dir %{_datadir}/%{name}/locale
+#%lang(ar) %{_datadir}/%{name}/locale/ar
+#%lang(bg) %{_datadir}/%{name}/locale/bg
+#%lang(br) %{_datadir}/%{name}/locale/br
+#%lang(ca) %{_datadir}/%{name}/locale/ca
+#%lang(cs) %{_datadir}/%{name}/locale/cs
+#%lang(da) %{_datadir}/%{name}/locale/da
+#%lang(de) %{_datadir}/%{name}/locale/de
+#%lang(el) %{_datadir}/%{name}/locale/el
+#%lang(en_GB) %{_datadir}/%{name}/locale/en_GB
+#%lang(en_US) %{_datadir}/%{name}/locale/en_US
+#%lang(eo) %{_datadir}/%{name}/locale/eo
+#%lang(es) %{_datadir}/%{name}/locale/es
+#%lang(eu) %{_datadir}/%{name}/locale/eu
+#%lang(fa) %{_datadir}/%{name}/locale/fa
+#%lang(fi) %{_datadir}/%{name}/locale/fi
+#%lang(fr) %{_datadir}/%{name}/locale/fr
+#%lang(fy) %{_datadir}/%{name}/locale/fy
+#%lang(ga) %{_datadir}/%{name}/locale/ga
+#%lang(gd) %{_datadir}/%{name}/locale/gd
+#%lang(gl) %{_datadir}/%{name}/locale/gl
+#%lang(he) %{_datadir}/%{name}/locale/he
+#%lang(hi) %{_datadir}/%{name}/locale/hi
+#%lang(hr) %{_datadir}/%{name}/locale/hr
+#%lang(hu) %{_datadir}/%{name}/locale/hu
+#%lang(id) %{_datadir}/%{name}/locale/id
+#%lang(ig) %{_datadir}/%{name}/locale/ig
+#%lang(it) %{_datadir}/%{name}/locale/it
+#%lang(ja) %{_datadir}/%{name}/locale/ja
+#%lang(ka) %{_datadir}/%{name}/locale/ka
+#%lang(ko) %{_datadir}/%{name}/locale/ko
+#%lang(krl) %{_datadir}/%{name}/locale/krl
+#%lang(la) %{_datadir}/%{name}/locale/la
+#%lang(lt) %{_datadir}/%{name}/locale/lt
+#%lang(ms) %{_datadir}/%{name}/locale/ms
+#%lang(nb) %{_datadir}/%{name}/locale/nb
+#%lang(nds) %{_datadir}/%{name}/locale/nds
+#%lang(nl) %{_datadir}/%{name}/locale/nl
+#%lang(nn) %{_datadir}/%{name}/locale/nn
+#%lang(pl) %{_datadir}/%{name}/locale/pl
+#%lang(pt) %{_datadir}/%{name}/locale/pt
+#%lang(pt_BR) %{_datadir}/%{name}/locale/pt_BR
+#%lang(ro) %{_datadir}/%{name}/locale/ro
+#%lang(ru) %{_datadir}/%{name}/locale/ru
+#%lang(sk) %{_datadir}/%{name}/locale/sk
+#%lang(sl) %{_datadir}/%{name}/locale/sl
+#%lang(sr) %{_datadir}/%{name}/locale/sr
+#%lang(sr_RS) %{_datadir}/%{name}/locale/sr_RS
+#%lang(sv) %{_datadir}/%{name}/locale/sv
+#%lang(tr) %{_datadir}/%{name}/locale/tr
+#%lang(uk) %{_datadir}/%{name}/locale/uk
+#%lang(zh_CN) %{_datadir}/%{name}/locale/zh_CN
+#%lang(zh_TW) %{_datadir}/%{name}/locale/zh_TW
 %{_datadir}/%{name}/maps
 %{_datadir}/%{name}/music
 %{_datadir}/%{name}/scripting
