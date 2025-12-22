@@ -6,7 +6,7 @@ Summary:	A real-time build-up strategy game
 Summary(pl.UTF-8):	Gra strategiczna czasu rzeczywistego z budowaniem
 Name:		widelands
 Version:	1.3
-Release:	0.1
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Games
 #Source0Download: https://wl.widelands.org/wiki/Download/#release
@@ -21,7 +21,7 @@ BuildRequires:	SDL2_mixer-devel >= 2
 BuildRequires:	SDL2_ttf-devel >= 2.0.12
 BuildRequires:	asio-devel
 BuildRequires:	boost-devel >= 1.48
-BuildRequires:	cmake >= 3.5
+BuildRequires:	cmake >= 3.12
 BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	gettext-tools
@@ -31,8 +31,8 @@ BuildRequires:	libicu-devel
 BuildRequires:	libpng-devel >= 1.6
 BuildRequires:	libstdc++-devel >= 6:4.8
 BuildRequires:	minizip-devel
-BuildRequires:	python >= 2
-BuildRequires:	python-modules >= 2
+BuildRequires:	python3 >= 3
+BuildRequires:	python3-modules >= 3
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	zlib-devel
@@ -109,6 +109,54 @@ rm -rf $RPM_BUILD_ROOT
 
 # VERSION unneeded, COPYING generic GPL v2, the rest packaged as %doc
 %{__rm} $RPM_BUILD_ROOT%{_prefix}/{COPYING,CREDITS,ChangeLog,VERSION}
+%{__rm} -r $RPM_BUILD_ROOT%{_prefix}/doc
+
+find $RPM_BUILD_ROOT%{_datadir}/widelands/i18n/translations -name *.pot -type f -delete
+
+# custom search for translations
+cd $RPM_BUILD_ROOT
+:> translations.txt
+for LangDirs in \
+        usr/share/widelands/i18n/translations/map_along_the_river.wmf \
+        usr/share/widelands/i18n/translations/maps \
+        usr/share/widelands/i18n/translations/map_the_green_plateau.wmf \
+        usr/share/widelands/i18n/translations/mp_scenario_island_hopping.wmf \
+        usr/share/widelands/i18n/translations/mp_scenario_smugglers.wmf \
+        usr/share/widelands/i18n/translations/scenario_atl01.wmf \
+        usr/share/widelands/i18n/translations/scenario_atl02.wmf \
+        usr/share/widelands/i18n/translations/scenario_bar01.wmf \
+        usr/share/widelands/i18n/translations/scenario_bar02.wmf \
+        usr/share/widelands/i18n/translations/scenario_dummy.wmf \
+        usr/share/widelands/i18n/translations/scenario_emp01.wmf \
+        usr/share/widelands/i18n/translations/scenario_emp02.wmf \
+        usr/share/widelands/i18n/translations/scenario_emp03.wmf \
+        usr/share/widelands/i18n/translations/scenario_emp04.wmf \
+        usr/share/widelands/i18n/translations/scenario_fri01.wmf \
+        usr/share/widelands/i18n/translations/scenario_fri02.wmf \
+        usr/share/widelands/i18n/translations/scenario_fri03.wmf \
+        usr/share/widelands/i18n/translations/scenario_fri04.wmf \
+        usr/share/widelands/i18n/translations/scenario_fri05.wmf \
+        usr/share/widelands/i18n/translations/scenario_tutorial01_basic_control.wmf \
+        usr/share/widelands/i18n/translations/scenario_tutorial02_warfare.wmf \
+        usr/share/widelands/i18n/translations/scenario_tutorial03_seafaring.wmf \
+        usr/share/widelands/i18n/translations/scenario_tutorial04_economy.wmf \
+        usr/share/widelands/i18n/translations/texts \
+        usr/share/widelands/i18n/translations/training_wheels \
+        usr/share/widelands/i18n/translations/tribes \
+        usr/share/widelands/i18n/translations/tribes_encyclopedia \
+        usr/share/widelands/i18n/translations/widelands \
+        usr/share/widelands/i18n/translations/widelands_console \
+        usr/share/widelands/i18n/translations/widelands_editor \
+        usr/share/widelands/i18n/translations/win_conditions \
+        usr/share/widelands/i18n/translations/world
+do
+        find $LangDirs/ -name ??_??.po | sed -n "s#\($LangDirs/\(.*\_..\)\)#%lang(\2) /\1#p" >> translations.txt
+        find $LangDirs/ -name ???.po | sed -n "s#\($LangDirs/\(...\)\)#%lang(\2) /\1#p" >> translations.txt
+        find $LangDirs/ -name ??.po | sed -n "s#\($LangDirs/\(..\)\)#%lang(\2) /\1#p" >> translations.txt
+done
+
+cd -
+%{__mv} $RPM_BUILD_ROOT/translations.txt .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -123,14 +171,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog CREDITS
+%doc ChangeLog CREDITS CONTRIBUTING.md README.md Release_Notes.md
 %attr(755,root,root) %{_bindir}/widelands
 %{_datadir}/metainfo/org.widelands.Widelands.metainfo.xml
 %{_desktopdir}/org.widelands.Widelands.desktop
 %{_iconsdir}/hicolor/*x*/apps/org.widelands.Widelands.png
 %{_mandir}/man6/widelands.6*
 
-%files data
+%files data -f translations.txt
 %defattr(644,root,root,755)
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/ai
@@ -206,59 +254,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_TW) %{_datadir}/%{name}/i18n/locales/zh_TW.json
 %{_datadir}/%{name}/i18n/translation_stats.conf
 %{_datadir}/%{name}/images
-#%dir %{_datadir}/%{name}/locale
-#%lang(ar) %{_datadir}/%{name}/locale/ar
-#%lang(bg) %{_datadir}/%{name}/locale/bg
-#%lang(br) %{_datadir}/%{name}/locale/br
-#%lang(ca) %{_datadir}/%{name}/locale/ca
-#%lang(cs) %{_datadir}/%{name}/locale/cs
-#%lang(da) %{_datadir}/%{name}/locale/da
-#%lang(de) %{_datadir}/%{name}/locale/de
-#%lang(el) %{_datadir}/%{name}/locale/el
-#%lang(en_GB) %{_datadir}/%{name}/locale/en_GB
-#%lang(en_US) %{_datadir}/%{name}/locale/en_US
-#%lang(eo) %{_datadir}/%{name}/locale/eo
-#%lang(es) %{_datadir}/%{name}/locale/es
-#%lang(eu) %{_datadir}/%{name}/locale/eu
-#%lang(fa) %{_datadir}/%{name}/locale/fa
-#%lang(fi) %{_datadir}/%{name}/locale/fi
-#%lang(fr) %{_datadir}/%{name}/locale/fr
-#%lang(fy) %{_datadir}/%{name}/locale/fy
-#%lang(ga) %{_datadir}/%{name}/locale/ga
-#%lang(gd) %{_datadir}/%{name}/locale/gd
-#%lang(gl) %{_datadir}/%{name}/locale/gl
-#%lang(he) %{_datadir}/%{name}/locale/he
-#%lang(hi) %{_datadir}/%{name}/locale/hi
-#%lang(hr) %{_datadir}/%{name}/locale/hr
-#%lang(hu) %{_datadir}/%{name}/locale/hu
-#%lang(id) %{_datadir}/%{name}/locale/id
-#%lang(ig) %{_datadir}/%{name}/locale/ig
-#%lang(it) %{_datadir}/%{name}/locale/it
-#%lang(ja) %{_datadir}/%{name}/locale/ja
-#%lang(ka) %{_datadir}/%{name}/locale/ka
-#%lang(ko) %{_datadir}/%{name}/locale/ko
-#%lang(krl) %{_datadir}/%{name}/locale/krl
-#%lang(la) %{_datadir}/%{name}/locale/la
-#%lang(lt) %{_datadir}/%{name}/locale/lt
-#%lang(ms) %{_datadir}/%{name}/locale/ms
-#%lang(nb) %{_datadir}/%{name}/locale/nb
-#%lang(nds) %{_datadir}/%{name}/locale/nds
-#%lang(nl) %{_datadir}/%{name}/locale/nl
-#%lang(nn) %{_datadir}/%{name}/locale/nn
-#%lang(pl) %{_datadir}/%{name}/locale/pl
-#%lang(pt) %{_datadir}/%{name}/locale/pt
-#%lang(pt_BR) %{_datadir}/%{name}/locale/pt_BR
-#%lang(ro) %{_datadir}/%{name}/locale/ro
-#%lang(ru) %{_datadir}/%{name}/locale/ru
-#%lang(sk) %{_datadir}/%{name}/locale/sk
-#%lang(sl) %{_datadir}/%{name}/locale/sl
-#%lang(sr) %{_datadir}/%{name}/locale/sr
-#%lang(sr_RS) %{_datadir}/%{name}/locale/sr_RS
-#%lang(sv) %{_datadir}/%{name}/locale/sv
-#%lang(tr) %{_datadir}/%{name}/locale/tr
-#%lang(uk) %{_datadir}/%{name}/locale/uk
-#%lang(zh_CN) %{_datadir}/%{name}/locale/zh_CN
-#%lang(zh_TW) %{_datadir}/%{name}/locale/zh_TW
 %{_datadir}/%{name}/maps
 %{_datadir}/%{name}/music
 %{_datadir}/%{name}/scripting
@@ -269,6 +264,40 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/txts
 %{_datadir}/%{name}/world
 %{_datadir}/%{name}/datadirversion
+# translations dirs
+%dir %{_datadir}/widelands/i18n/translations
+%dir %{_datadir}/widelands/i18n/translations/map_along_the_river.wmf
+%dir %{_datadir}/widelands/i18n/translations/map_the_green_plateau.wmf
+%dir %{_datadir}/widelands/i18n/translations/maps
+%dir %{_datadir}/widelands/i18n/translations/mp_scenario_island_hopping.wmf
+%dir %{_datadir}/widelands/i18n/translations/mp_scenario_smugglers.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_atl01.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_atl02.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_bar01.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_bar02.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_dummy.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_emp01.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_emp02.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_emp03.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_emp04.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_fri01.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_fri02.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_fri03.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_fri04.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_fri05.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_tutorial01_basic_control.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_tutorial02_warfare.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_tutorial03_seafaring.wmf
+%dir %{_datadir}/widelands/i18n/translations/scenario_tutorial04_economy.wmf
+%dir %{_datadir}/widelands/i18n/translations/texts
+%dir %{_datadir}/widelands/i18n/translations/training_wheels
+%dir %{_datadir}/widelands/i18n/translations/tribes
+%dir %{_datadir}/widelands/i18n/translations/tribes_encyclopedia
+%dir %{_datadir}/widelands/i18n/translations/widelands
+%dir %{_datadir}/widelands/i18n/translations/widelands_console
+%dir %{_datadir}/widelands/i18n/translations/widelands_editor
+%dir %{_datadir}/widelands/i18n/translations/win_conditions
+%dir %{_datadir}/widelands/i18n/translations/world
 
 %files debug
 %defattr(644,root,root,755)
